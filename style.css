@@ -79,6 +79,12 @@ body {
     transition: background-color 0.15s ease;
 }
 
+@media (max-width: 600px) {
+    .zone {
+        border-width: 1.5px;
+    }
+}
+
 /* Zone normale : verte */
 .zone.normale {
     border-color: #39d353;
