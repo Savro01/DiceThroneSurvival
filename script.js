@@ -247,12 +247,10 @@ function obtenirDistanceDeuxDoigts() {
 // --- Début du déplacement ou du zoom ---
 
 zoneNavigation.addEventListener("pointerdown", (event) => {
-    if (event.pointerType === "mouse" && event.button !== 0) {
+    if ((event.pointerType === "mouse" && event.button !== 0) || pointeurs.size >= 2 || event.target.closest(".zone")) {
         return;
     }
-
-    if (pointeurs.size >= 2) return;
-
+	
     arreterAnimationRetour();
 
     pointeurs.set(event.pointerId, {
@@ -473,17 +471,29 @@ function creerZones() {
         cercle.disabled = !accessible;
 
         cercle.addEventListener("click", () => {
-            if (!accessible) return;
+			if (!accessible) return;
 
-            console.log(
-                "Zone sélectionnée :",
-                zone.nom
-            );
-        });
+			const fenetre = document.getElementById("fenetreZone");
+			const image = document.getElementById("imageZone");
+
+			image.src = zone.image;
+			image.alt = zone.nom;
+
+			fenetre.classList.remove("masquee");
+		});
 
         conteneurZones.appendChild(cercle);
     });
 }
+
+const fenetreZone = document.getElementById("fenetreZone");
+const imageZone = document.getElementById("imageZone");
+
+fenetreZone.addEventListener("click", (event) => {
+    if (!imageZone.contains(event.target)) {
+        fenetreZone.classList.add("masquee");
+    }
+});
 
 
 // --- Initialisation générale ---
