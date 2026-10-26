@@ -432,6 +432,7 @@ function initialiserNavigation() {
    04 — AFFICHAGE DES ZONES
    ============================================================ */
 
+// --- Creations des zones ---
 function creerZones() {
     conteneurZones.replaceChildren();
 
@@ -476,28 +477,63 @@ function creerZones() {
 			const fenetre = document.getElementById("fenetreZone");
 			const image = document.getElementById("imageZone");
 
+			clearTimeout(minuterieFermeture);
+
 			image.src = zone.image;
 			image.alt = zone.nom;
 
+			fenetre.classList.remove("fermetureEnCours");
+			fenetre.classList.add("ouvertureEnCours");
 			fenetre.classList.remove("masquee");
+
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					fenetre.classList.remove("ouvertureEnCours");
+				});
+			});
 		});
 
         conteneurZones.appendChild(cercle);
     });
 }
 
+// --- Fermeture de zone ---
 const fenetreZone = document.getElementById("fenetreZone");
 const imageZone = document.getElementById("imageZone");
 
+let minuterieFermeture = null;
+
+function fermerFenetreZone() {
+    if (fenetreZone.classList.contains("masquee")) return;
+
+    fenetreZone.classList.add("fermetureEnCours");
+
+    clearTimeout(minuterieFermeture);
+
+    minuterieFermeture = setTimeout(() => {
+        fenetreZone.classList.add("masquee");
+        fenetreZone.classList.remove("fermetureEnCours");
+    }, 550);
+}
+
 fenetreZone.addEventListener("click", (event) => {
     if (!imageZone.contains(event.target)) {
-        fenetreZone.classList.add("masquee");
+        fermerFenetreZone();
     }
 });
 
 
-// --- Initialisation générale ---
+/* ============================================================
+   05 — VUES DÉTAILLÉES ET CONTENU
+   ============================================================ */
 
+// Les panneaux, butins, effets et équipements seront ajoutés ici.
+
+
+/* ============================================================
+   06 — INITIALISATION GÉNÉRALE
+   ============================================================ */
+   
 function demarrerCarte() {
     actualiserDimensionsCarte();
     creerZones();
@@ -511,10 +547,3 @@ if (mapPrincipale.complete && mapPrincipale.naturalWidth) {
         once: true
     });
 }
-
-
-/* ============================================================
-   05 — VUES DÉTAILLÉES ET CONTENU
-   ============================================================ */
-
-// Les panneaux, butins, effets et équipements seront ajoutés ici.

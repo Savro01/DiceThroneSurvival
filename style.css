@@ -122,18 +122,28 @@ body {
     justify-content: center;
 
     padding: 3vh 3vw;
+
+    opacity: 1;
+    transition: opacity 450ms ease;
 }
 
-/* Masquer la fenêtre lorsqu'elle est fermée */
+/* Fenêtre fermée */
 #fenetreZone.masquee {
     display: none;
+}
+
+/* Fermeture en cours */
+#fenetreZone.fermetureEnCours {
+    pointer-events: none;
 }
 
 /* Fond sombre derrière l'image */
 #fondFenetre {
     position: absolute;
     inset: 0;
+
     background: rgba(0, 0, 0, 0.8);
+    transition: background-color 500ms ease;
 }
 
 /* Contenu de la fenêtre */
@@ -147,11 +157,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    transform: scale(1);
+    opacity: 1;
+
+    transition:
+        transform 550ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 450ms ease;
 }
 
 /* Image de la zone */
 #imageZone {
     display: block;
+
     max-width: 100%;
     max-height: 100%;
 
@@ -160,4 +178,28 @@ body {
 
     object-fit: contain;
     user-select: none;
+}
+
+/* État initial de l'ouverture */
+#fenetreZone.ouvertureEnCours {
+    opacity: 0;
+}
+
+#fenetreZone.ouvertureEnCours #contenuFenetre {
+    transform: scale(0.92);
+    opacity: 0;
+}
+
+/* Animation de fermeture */
+#fenetreZone.fermetureEnCours {
+    opacity: 0;
+}
+
+#fenetreZone.fermetureEnCours #fondFenetre {
+    background: rgba(0, 0, 0, 0);
+}
+
+#fenetreZone.fermetureEnCours #contenuFenetre {
+    transform: scale(0.92);
+    opacity: 0;
 }
