@@ -1,91 +1,139 @@
 
-import { initialiserNavigation } from "./navigation.js";
-import { initialiserZones } from "./zones.js";
+/* ============================================================
+   01 — INITIALISATION
+   ============================================================ */
 
-// Initialise la navigation de la carte
-initialiserNavigation();
-
-// Crée les zones interactives
-initialiserZones();
-
-
-
-
-
-
-
-
-
-
-
-/*
 const zoneNavigation = document.getElementById("zoneNavigation");
 const carteInteractive = document.getElementById("carteInteractive");
+const surfaceCarte = document.getElementById("surfaceCarte");
 const mapPrincipale = document.getElementById("mapPrincipale");
+const conteneurZones = document.getElementById("zones");
 
-// Empêche le navigateur de démarrer un glisser-déposer natif
 zoneNavigation.addEventListener("dragstart", (event) => {
     event.preventDefault();
 });
 
-// Position et niveau de zoom
+
+/* ============================================================
+   02 — DONNÉES DES ZONES
+   ============================================================ */
+
+// Les positions sont des pourcentages de l'image.
+// Le diamètre est un pourcentage de sa largeur.
+
+const zones = [
+	{
+		nom: "La forge écarlate",
+		positionX: 10.2,
+		positionY: 30.1,
+		diametre: 9.4,
+		etat: "normale",
+		image: "images/zones/zone_03_la_forge_ecarlate.jpg"
+	},
+	{
+		nom: "La grotte sous marine",
+		positionX: 66.6,
+		positionY: 45.4,
+		diametre: 9,
+		etat: "normale",
+		image: "images/zones/zone_10_la_grotte_sous_marine.jpg"
+	}
+
+    // Pour ajouter une zone, copie un objet et modifie ses valeurs.
+    // États possibles : "normale", "menacee", "inaccessible"
+];
+
+
+/* ============================================================
+   03 — NAVIGATION DE LA CARTE
+   ============================================================ */
+
+// --- Variables de navigation ---
+
 let positionX = 0;
 let positionY = 0;
-let zoom = 1.0;
+let zoom = 1;
 
-// État du déplacement
-let deplacementEnCours = false;
-let sourisDepartX = 0;
-let sourisDepartY = 0;
-let carteDepartX = 0;
-let carteDepartY = 0;
-let pointeurActif = null;
+const zoomMinimum = 0.70;
+const zoomMaximum = 3;
 
-// Gestion de l'animation de retour
+const pointeurs = new Map();
+let modeNavigation = null;
+
+let departX = 0;
+let departY = 0;
+let positionDepartX = 0;
+let positionDepartY = 0;
+
+let distanceDepart = 0;
+let zoomDepart = 1;
+let milieuDepartX = 0;
+let milieuDepartY = 0;
+
 let animationRetour = null;
 
-// Applique la position et le zoom à la carte
+
+// --- Dimensions de l'image ---
+
+function actualiserDimensionsCarte() {
+    const largeurFenetre = zoneNavigation.clientWidth;
+    const hauteurFenetre = zoneNavigation.clientHeight;
+
+    const largeurImage = mapPrincipale.naturalWidth;
+    const hauteurImage = mapPrincipale.naturalHeight;
+
+    if (!largeurImage || !hauteurImage) return;
+
+    // Ajuste l'image à l'écran sans déformer ses proportions.
+    const echelle = Math.min(
+        largeurFenetre / largeurImage,
+        hauteurFenetre / hauteurImage
+    );
+
+    surfaceCarte.style.width =
+        `${largeurImage * echelle}px`;
+
+    surfaceCarte.style.height =
+        `${hauteurImage * echelle}px`;
+}
+
+
+// --- Affichage de la carte ---
+
 function actualiserCarte() {
     carteInteractive.style.transform =
         `translate(${positionX}px, ${positionY}px) scale(${zoom})`;
 }
 
-// Calcule les limites de déplacement
+
+// --- Limites de déplacement ---
+
 function obtenirLimites() {
     const largeurFenetre = zoneNavigation.clientWidth;
     const hauteurFenetre = zoneNavigation.clientHeight;
 
-    const largeurOriginale = mapPrincipale.naturalWidth;
-    const hauteurOriginale = mapPrincipale.naturalHeight;
-
-    if (!largeurOriginale || !hauteurOriginale) {
-        return { limiteX: 0, limiteY: 0 };
-    }
-
-    const echelleBase = Math.min(
-        largeurFenetre / largeurOriginale,
-        hauteurFenetre / hauteurOriginale
-    );
-
-    const largeurCarte = largeurOriginale * echelleBase * zoom;
-    const hauteurCarte = hauteurOriginale * echelleBase * zoom;
-
-    const margeDeplacement = 180;
+    const largeurCarte = surfaceCarte.offsetWidth * zoom;
+    const hauteurCarte = surfaceCarte.offsetHeight * zoom;
 
     return {
-        limiteX: Math.abs(largeurCarte - largeurFenetre) / 2
-            + margeDeplacement,
-        limiteY: Math.abs(hauteurCarte - hauteurFenetre) / 2
-            + margeDeplacement
+        limiteX: Math.max(
+            0,
+            (largeurCarte - largeurFenetre) / 2
+        ),
+        limiteY: Math.max(
+            0,
+            (hauteurCarte - hauteurFenetre) / 2
+        )
     };
 }
 
-// Ramène une valeur dans les limites normales
 function limiterValeur(position, limite) {
     return Math.max(-limite, Math.min(limite, position));
 }
 
-// Applique la résistance élastique
+
+// --- Résistance élastique ---
+
 function appliquerResistance(position, limite) {
     if (Math.abs(position) <= limite) {
         return position;
@@ -94,14 +142,31 @@ function appliquerResistance(position, limite) {
     const signe = Math.sign(position);
     const depassement = Math.abs(position) - limite;
 
-    const depassementSouple = 180 * (
-        1 - Math.exp(-depassement / 100)
+    const tailleEcran = Math.min(
+        zoneNavigation.clientWidth,
+        zoneNavigation.clientHeight
+    );
+
+    const resistance = tailleEcran * 0.25;
+    const distanceSouple = tailleEcran * 0.14;
+
+    const depassementSouple = resistance * (
+        1 - Math.exp(-depassement / distanceSouple)
     );
 
     return signe * (limite + depassementSouple);
 }
 
-// Arrête une éventuelle animation en cours
+function limiterPosition() {
+    const { limiteX, limiteY } = obtenirLimites();
+
+    positionX = appliquerResistance(positionX, limiteX);
+    positionY = appliquerResistance(positionY, limiteY);
+}
+
+
+// --- Animation de retour ---
+
 function arreterAnimationRetour() {
     if (animationRetour !== null) {
         cancelAnimationFrame(animationRetour);
@@ -109,21 +174,23 @@ function arreterAnimationRetour() {
     }
 }
 
-// Anime le retour dans les limites normales
 function revenirDansLimites() {
     const { limiteX, limiteY } = obtenirLimites();
 
-    const departX = positionX;
-    const departY = positionY;
+    const departPositionX = positionX;
+    const departPositionY = positionY;
 
     const arriveeX = limiterValeur(positionX, limiteX);
     const arriveeY = limiterValeur(positionY, limiteY);
 
-    if (departX === arriveeX && departY === arriveeY) {
+    if (
+        departPositionX === arriveeX &&
+        departPositionY === arriveeY
+    ) {
         return;
     }
 
-    const duree = 500;
+    const duree = 300;
     const debut = performance.now();
 
     function animer(maintenant) {
@@ -134,8 +201,11 @@ function revenirDansLimites() {
 
         const douceur = 1 - Math.pow(1 - progression, 4);
 
-        positionX = departX + (arriveeX - departX) * douceur;
-        positionY = departY + (arriveeY - departY) * douceur;
+        positionX = departPositionX +
+            (arriveeX - departPositionX) * douceur;
+
+        positionY = departPositionY +
+            (arriveeY - departPositionY) * douceur;
 
         actualiserCarte();
 
@@ -152,98 +222,289 @@ function revenirDansLimites() {
     animationRetour = requestAnimationFrame(animer);
 }
 
-// Début du déplacement
+
+// --- Outils tactiles ---
+
+function obtenirMilieuDeuxDoigts() {
+    const doigts = [...pointeurs.values()];
+
+    return {
+        x: (doigts[0].x + doigts[1].x) / 2,
+        y: (doigts[0].y + doigts[1].y) / 2
+    };
+}
+
+function obtenirDistanceDeuxDoigts() {
+    const doigts = [...pointeurs.values()];
+
+    return Math.hypot(
+        doigts[1].x - doigts[0].x,
+        doigts[1].y - doigts[0].y
+    );
+}
+
+
+// --- Début du déplacement ou du zoom ---
+
 zoneNavigation.addEventListener("pointerdown", (event) => {
-    if (event.button !== 0 || pointeurActif !== null) return;
+    if (event.pointerType === "mouse" && event.button !== 0) {
+        return;
+    }
+
+    if (pointeurs.size >= 2) return;
 
     arreterAnimationRetour();
 
-    const { limiteX, limiteY } = obtenirLimites();
-
-    positionX = limiterValeur(positionX, limiteX);
-    positionY = limiterValeur(positionY, limiteY);
-
-    pointeurActif = event.pointerId;
-
-    sourisDepartX = event.clientX;
-    sourisDepartY = event.clientY;
-
-    carteDepartX = positionX;
-    carteDepartY = positionY;
-
-    deplacementEnCours = true;
+    pointeurs.set(event.pointerId, {
+        x: event.clientX,
+        y: event.clientY,
+        type: event.pointerType
+    });
 
     zoneNavigation.setPointerCapture(event.pointerId);
+
+    if (pointeurs.size === 1) {
+        modeNavigation = "deplacement";
+
+        departX = event.clientX;
+        departY = event.clientY;
+
+        positionDepartX = positionX;
+        positionDepartY = positionY;
+    } else if (pointeurs.size === 2) {
+        modeNavigation = "zoom";
+
+        distanceDepart = obtenirDistanceDeuxDoigts();
+        zoomDepart = zoom;
+
+        const milieu = obtenirMilieuDeuxDoigts();
+
+        milieuDepartX = milieu.x;
+        milieuDepartY = milieu.y;
+    }
 });
 
-// Déplacement de la souris
+
+// --- Déplacement et zoom ---
+
 zoneNavigation.addEventListener("pointermove", (event) => {
-    if (!deplacementEnCours || event.pointerId !== pointeurActif) return;
+    if (!pointeurs.has(event.pointerId)) return;
 
-    const { limiteX, limiteY } = obtenirLimites();
+    pointeurs.set(event.pointerId, {
+        x: event.clientX,
+        y: event.clientY,
+        type: event.pointerType
+    });
 
-    const positionSouhaiteeX =
-        carteDepartX + event.clientX - sourisDepartX;
+    if (
+        pointeurs.size === 1 &&
+        modeNavigation === "deplacement"
+    ) {
+        positionX = positionDepartX + event.clientX - departX;
+        positionY = positionDepartY + event.clientY - departY;
 
-    const positionSouhaiteeY =
-        carteDepartY + event.clientY - sourisDepartY;
+        limiterPosition();
+        actualiserCarte();
+    }
 
-    positionX = appliquerResistance(positionSouhaiteeX, limiteX);
-    positionY = appliquerResistance(positionSouhaiteeY, limiteY);
+    if (pointeurs.size === 2 && modeNavigation === "zoom") {
+        const distanceActuelle = obtenirDistanceDeuxDoigts();
 
-    actualiserCarte();
+        if (distanceDepart <= 0) return;
+
+        const nouveauZoom = Math.max(
+            zoomMinimum,
+            Math.min(
+                zoomMaximum,
+                zoomDepart * distanceActuelle / distanceDepart
+            )
+        );
+
+        const milieu = obtenirMilieuDeuxDoigts();
+
+        const centreX = zoneNavigation.clientWidth / 2;
+        const centreY = zoneNavigation.clientHeight / 2;
+
+        const pointCarteX =
+            (milieuDepartX - centreX - positionX) / zoomDepart;
+
+        const pointCarteY =
+            (milieuDepartY - centreY - positionY) / zoomDepart;
+
+        zoom = nouveauZoom;
+
+        positionX = milieu.x - centreX - pointCarteX * zoom;
+        positionY = milieu.y - centreY - pointCarteY * zoom;
+
+        limiterPosition();
+        actualiserCarte();
+    }
 });
 
-// Fin du déplacement
+
+// --- Fin du déplacement ou du zoom ---
+
 function terminerDeplacement(event) {
-    if (event.pointerId !== pointeurActif) return;
+    if (!pointeurs.has(event.pointerId)) return;
 
-    deplacementEnCours = false;
-    pointeurActif = null;
+    pointeurs.delete(event.pointerId);
 
-    revenirDansLimites();
+    if (pointeurs.size === 1) {
+        const doigtRestant = [...pointeurs.values()][0];
+
+        modeNavigation = "deplacement";
+
+        departX = doigtRestant.x;
+        departY = doigtRestant.y;
+
+        positionDepartX = positionX;
+        positionDepartY = positionY;
+    } else if (pointeurs.size === 0) {
+        modeNavigation = null;
+        revenirDansLimites();
+    }
 }
 
 zoneNavigation.addEventListener("pointerup", terminerDeplacement);
 zoneNavigation.addEventListener("pointercancel", terminerDeplacement);
 
 
-// Zoom avec la molette
+// --- Zoom à la molette sur PC ---
+
 zoneNavigation.addEventListener("wheel", (event) => {
     event.preventDefault();
 
-    if (deplacementEnCours) return;
+    if (pointeurs.size > 0) return;
 
     arreterAnimationRetour();
 
-    if (event.deltaY < 0) {
-        zoom += 0.05;
-    } else {
-        zoom -= 0.05;
-    }
+    const ancienZoom = zoom;
+    const facteurZoom = event.deltaY < 0 ? 1.1 : 1 / 1.1;
 
-    zoom = Math.max(0.70, Math.min(1.50, zoom));
+    zoom = Math.max(
+        zoomMinimum,
+        Math.min(zoomMaximum, zoom * facteurZoom)
+    );
 
-    const { limiteX, limiteY } = obtenirLimites();
+    const rectangle = zoneNavigation.getBoundingClientRect();
 
-    positionX = limiterValeur(positionX, limiteX);
-    positionY = limiterValeur(positionY, limiteY);
+    const sourisX = event.clientX - rectangle.left;
+    const sourisY = event.clientY - rectangle.top;
 
+    const centreX = zoneNavigation.clientWidth / 2;
+    const centreY = zoneNavigation.clientHeight / 2;
+
+    const pointCarteX =
+        (sourisX - centreX - positionX) / ancienZoom;
+
+    const pointCarteY =
+        (sourisY - centreY - positionY) / ancienZoom;
+
+    positionX = sourisX - centreX - pointCarteX * zoom;
+    positionY = sourisY - centreY - pointCarteY * zoom;
+
+    limiterPosition();
     actualiserCarte();
 }, { passive: false });
 
-// Affichage initial
-actualiserCarte();
+
+// --- Redimensionnement de l'écran ---
+
+window.addEventListener("resize", () => {
+    actualiserDimensionsCarte();
+    limiterPosition();
+    actualiserCarte();
+});
 
 
+// --- Initialisation de la navigation ---
+
+function initialiserNavigation() {
+    actualiserDimensionsCarte();
+
+    positionX = 0;
+    positionY = 0;
+    zoom = 1;
+
+    actualiserCarte();
+}
 
 
+/* ============================================================
+   04 — AFFICHAGE DES ZONES
+   ============================================================ */
 
-const cercleTest = document.createElement("div");
+function creerZones() {
+    conteneurZones.replaceChildren();
 
-cercleTest.classList.add("zone");
+    zones.forEach((zone) => {
+        const cercle = document.createElement("button");
 
-cercleTest.style.left = "64.4%";
-cercleTest.style.top = "45.4%";
+        cercle.type = "button";
+        cercle.classList.add("zone");
 
-document.getElementById("zones").appendChild(cercleTest);*/
+        // Évite les classes d'état inconnues.
+        const etatsAutorises = [
+            "normale",
+            "dangereuse",
+            "detruite"
+        ];
+
+        const etat = etatsAutorises.includes(zone.etat)
+            ? zone.etat
+            : "normale";
+
+        cercle.classList.add(etat);
+
+        cercle.setAttribute("aria-label", zone.nom);
+
+        // Position par rapport à l'image.
+        cercle.style.left = `${zone.positionX}%`;
+        cercle.style.top = `${zone.positionY}%`;
+
+        // Diamètre par rapport à la largeur de l'image.
+        cercle.style.setProperty(
+            "--diametre",
+            `${zone.diametre}%`
+        );
+
+        // Une zone détruite n'est pas accessible.
+        const accessible = etat !== "detruite";
+        cercle.disabled = !accessible;
+
+        cercle.addEventListener("click", () => {
+            if (!accessible) return;
+
+            console.log(
+                "Zone sélectionnée :",
+                zone.nom
+            );
+        });
+
+        conteneurZones.appendChild(cercle);
+    });
+}
+
+
+// --- Initialisation générale ---
+
+function demarrerCarte() {
+    actualiserDimensionsCarte();
+    creerZones();
+    initialiserNavigation();
+}
+
+if (mapPrincipale.complete && mapPrincipale.naturalWidth) {
+    demarrerCarte();
+} else {
+    mapPrincipale.addEventListener("load", demarrerCarte, {
+        once: true
+    });
+}
+
+
+/* ============================================================
+   05 — VUES DÉTAILLÉES ET CONTENU
+   ============================================================ */
+
+// Les panneaux, butins, effets et équipements seront ajoutés ici.

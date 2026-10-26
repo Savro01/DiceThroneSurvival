@@ -16,6 +16,7 @@ body {
 #zoneNavigation {
     width: 100%;
     height: 100vh;
+    height: 100dvh;
 
     position: relative;
     overflow: hidden;
@@ -29,50 +30,77 @@ body {
     cursor: grabbing;
 }
 
-/* Conteneur de la carte et des zones interactives */
+/* Conteneur de la carte et des zones */
 #carteInteractive {
     position: absolute;
-    left: 0;
-    top: 0;
-
+    inset: 0;
     width: 100%;
     height: 100%;
-
     transform-origin: center;
 }
 
-/* Couche qui accueillera les cercles */
-#zones {
+/* Surface correspondant exactement à l'image */
+#surfaceCarte {
     position: absolute;
-    inset: 0;
-}
-
-/* Cercle représentant une zone de jeu */
-.zone {
-    position: absolute;
-
-    width: 200px;
-    height: 200px;
-
-    border: 3px solid #39d353;
-    border-radius: 50%;
-
-    background-color: rgba(57, 211, 83, 0.2);
-
+    left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
-
-    cursor: pointer;
-    pointer-events: auto;
 }
 
 /* Image de la carte */
 #mapPrincipale {
     display: block;
-
     width: 100%;
     height: 100%;
-    object-fit: contain;
-
+    object-fit: fill;
     user-select: none;
     pointer-events: none;
+}
+
+/* Couche des zones interactives */
+#zones {
+    position: absolute;
+    inset: 0;
+}
+
+/* Apparence commune des zones */
+.zone {
+    position: absolute;
+    width: var(--diametre);
+    aspect-ratio: 1 / 1;
+    padding: 0;
+
+    border: 3px solid;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background-color 0.15s ease;
+}
+
+/* Zone normale : verte */
+.zone.normale {
+    border-color: #39d353;
+    background-color: rgba(57, 211, 83, 0.20);
+}
+
+/* Zone dangereuse : rouge */
+.zone.dangereuse {
+    border-color: #ff4545;
+    background-color: rgba(255, 69, 69, 0.25);
+}
+
+/* Zone détruite : grise et inaccessible */
+.zone.detruite {
+    border-color: #999999;
+    background-color: rgba(153, 153, 153, 0.25);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Effet au survol des zones accessibles */
+.zone.normale:hover,
+.zone.dangereuse:hover {
+    background-color: rgba(255, 255, 255, 0.20);
 }
