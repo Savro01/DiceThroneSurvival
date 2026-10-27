@@ -29,8 +29,8 @@ const zones = [
 		diametre: 9.4,
 		etat: "normale",
 		image: "images/zones/zone_03_la_forge_ecarlate.jpg",
-		imageLoot: "",
-        imageAction: ""
+		imageLoot: "images/ImageLootActionPlaceholder.jpg",
+		imageAction: "images/ImageLootActionPlaceholder.jpg"
 	},
 	{
 		nom: "La grotte sous marine",
@@ -39,8 +39,8 @@ const zones = [
 		diametre: 9,
 		etat: "normale",
 		image: "images/zones/zone_10_la_grotte_sous_marine.jpg",
-		imageLoot: "",
-        imageAction: ""
+		imageLoot: "images/ImageLootActionPlaceholder.jpg",
+		imageAction: "images/ImageLootActionPlaceholder.jpg"
 	}
 
     // Pour ajouter une zone, copie un objet et modifie ses valeurs.
@@ -550,11 +550,19 @@ function cacherInfos() {
 
 // Affiche l'image associée au logo.
 function afficherInfo(logo, imageInfo) {
-    const imageZone = document.getElementById("imageZone");
+    const zone = zones.find(z => z.nom === imageZone.alt);
 
-    // Pour le test, on utilise l'image de la zone actuelle.
-    imageInfo.src = imageZone.src;
-    imageInfo.alt = "Image temporaire de test";
+    if (!zone) return;
+
+    // Choisit l'image selon le logo utilisé.
+    const cheminImage = logo === logoLoot
+        ? zone.imageLoot
+        : zone.imageAction;
+
+    imageInfo.src = cheminImage;
+    imageInfo.alt = logo === logoLoot
+        ? `Liste de loot : ${zone.nom}`
+        : `Action : ${zone.nom}`;
 
     infoLoot.style.pointerEvents = "none";
     infoAction.style.pointerEvents = "none";
@@ -564,17 +572,23 @@ function afficherInfo(logo, imageInfo) {
 
 	const positionLogo = logo.getBoundingClientRect();
 	const positionSurface = document.getElementById("surfaceZone").getBoundingClientRect();
-	const hauteurLogo = positionLogo.height;
+
+	const decalageHorizontal = logo === logoLoot ? 0.10 : 0.10;
+	const decalageVertical = logo === logoLoot ? 0.45 : 1.05;
+
+	imageInfo.style.left =
+		`${positionLogo.right - positionSurface.left - positionLogo.width * decalageHorizontal}px`;
+
+	imageInfo.style.top =
+		`${positionLogo.top - positionSurface.top - positionLogo.height * decalageVertical}px`;
 	
-	imageInfo.style.left = `${positionLogo.right - positionSurface.left + 8}px`;
-	imageInfo.style.top = `${positionLogo.top - positionSurface.top - hauteurLogo * 0.5}px`;
-	imageInfo.style.bottom = "auto";
+    imageInfo.style.bottom = "auto";
 
     imageInfo.classList.remove("masquee");
     logoActif = logo;
 }
 
-// Ordinateur : affichage au survol.
+ // Ordinateur : affichage au survol.
 logoLoot.addEventListener("mouseenter", () => {
     afficherInfo(logoLoot, infoLoot);
 });
@@ -587,9 +601,11 @@ logoAction.addEventListener("mouseenter", () => {
 
 logoAction.addEventListener("mouseleave", cacherInfos);
 
-// Téléphone : affichage au toucher.
+// Téléphone et écran tactile : affichage au toucher.
 logoLoot.addEventListener("click", (event) => {
-    if (event.pointerType === "mouse") return;
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        return;
+    }
 
     event.stopPropagation();
 
@@ -601,7 +617,9 @@ logoLoot.addEventListener("click", (event) => {
 });
 
 logoAction.addEventListener("click", (event) => {
-    if (event.pointerType === "mouse") return;
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        return;
+    }
 
     event.stopPropagation();
 

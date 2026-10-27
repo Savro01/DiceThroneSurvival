@@ -265,29 +265,15 @@ body {
     transform: translate(-50%, -50%);
     z-index: 2;
 	
-	transition: transform 180ms ease;
+	transition: transform 200ms ease;
 }
 
-/* Petit mouvement du logo au survol */
-@keyframes danseLogo {
-    0%   { rotate: 0deg; }
-    20%  { rotate: -10deg; translate: -4px 0; }
-    40%  { rotate: 10deg; translate: 4px 0; }
-    60%  { rotate: -10deg; translate: -4px 0; }
-    80%  { rotate: 10deg; translate: 4px 0; }
-    100% { rotate: 0deg; translate: 0 0; }
-}
-
-/* Souris : le logo grossit au survol */
 .logoZone:hover {
-	animation: danseLogo 1.2s ease-in-out;
-    transform: translate(-50%, -50%) scale(1.12);
+    transform: translate(-50%, -50%) scale(1.08);
 }
 
-/* Téléphone : petit effet pendant l'appui */
 .logoZone:active {
-	animation: danseLogo 1.2s ease-in-out;
-    transform: translate(-50%, -50%) scale(0.92);
+    transform: translate(-50%, -50%) scale(0.96);
 }
 
 /* Images des logos */
