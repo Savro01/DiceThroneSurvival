@@ -1,3 +1,8 @@
+
+/* ============================================================
+   01 — RÉINITIALISATION ET PAGE
+   ============================================================ */
+
 /* Réinitialisation de la page */
 * {
     margin: 0;
@@ -12,13 +17,18 @@ body {
     height: 100%;
 }
 
-/* La fenêtre de navigation */
+
+/* ============================================================
+   02 — CARTE PRINCIPALE ET NAVIGATION
+   ============================================================ */
+
+/* Fenêtre de navigation */
 #zoneNavigation {
+    position: relative;
     width: 100%;
     height: 100vh;
     height: 100dvh;
 
-    position: relative;
     overflow: hidden;
     touch-action: none;
 
@@ -34,8 +44,10 @@ body {
 #carteInteractive {
     position: absolute;
     inset: 0;
+
     width: 100%;
     height: 100%;
+
     transform-origin: center;
 }
 
@@ -44,18 +56,26 @@ body {
     position: absolute;
     left: 50%;
     top: 50%;
+
     transform: translate(-50%, -50%);
 }
 
 /* Image de la carte */
 #mapPrincipale {
     display: block;
+
     width: 100%;
     height: 100%;
+
     object-fit: fill;
     user-select: none;
     pointer-events: none;
 }
+
+
+/* ============================================================
+   03 — ZONES INTERACTIVES
+   ============================================================ */
 
 /* Couche des zones interactives */
 #zones {
@@ -66,23 +86,20 @@ body {
 /* Apparence commune des zones */
 .zone {
     position: absolute;
+
     width: var(--diametre);
     aspect-ratio: 1 / 1;
     padding: 0;
 
     border: 3px solid;
     border-radius: 50%;
+
     transform: translate(-50%, -50%);
 
     cursor: pointer;
     pointer-events: auto;
-    transition: background-color 0.15s ease;
-}
 
-@media (max-width: 600px) {
-    .zone {
-        border-width: 1.5px;
-    }
+    transition: background-color 0.15s ease;
 }
 
 /* Zone normale : verte */
@@ -101,6 +118,7 @@ body {
 .zone.detruite {
     border-color: #999999;
     background-color: rgba(153, 153, 153, 0.25);
+
     cursor: not-allowed;
     pointer-events: none;
 }
@@ -111,7 +129,12 @@ body {
     background-color: rgba(255, 255, 255, 0.20);
 }
 
-/* Fenêtre d'une zone */
+
+/* ============================================================
+   04 — FENÊTRE DÉTAILLÉE D'UNE ZONE
+   ============================================================ */
+
+/* Fenêtre principale */
 #fenetreZone {
     position: fixed;
     inset: 0;
@@ -132,7 +155,7 @@ body {
     display: none;
 }
 
-/* Fermeture en cours */
+/* Fermeture en cours : désactive les interactions */
 #fenetreZone.fermetureEnCours {
     pointer-events: none;
 }
@@ -146,7 +169,7 @@ body {
     transition: background-color 500ms ease;
 }
 
-/* Contenu de la fenêtre */
+/* Conteneur de l'image et des éléments superposés */
 #contenuFenetre {
     position: relative;
     z-index: 1;
@@ -166,12 +189,24 @@ body {
         opacity 450ms ease;
 }
 
-/* Image de la zone */
+/* Surface de référence pour les éléments superposés */
+#surfaceZone {
+    position: relative;
+
+    display: inline-block;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    line-height: 0;
+}
+
+/* Image principale de la zone */
 #imageZone {
     display: block;
 
     max-width: 100%;
-    max-height: 100%;
+    max-height: 80vh;
 
     width: auto;
     height: auto;
@@ -179,6 +214,11 @@ body {
     object-fit: contain;
     user-select: none;
 }
+
+
+/* ============================================================
+   05 — ANIMATIONS D'OUVERTURE ET DE FERMETURE
+   ============================================================ */
 
 /* État initial de l'ouverture */
 #fenetreZone.ouvertureEnCours {
@@ -202,4 +242,109 @@ body {
 #fenetreZone.fermetureEnCours #contenuFenetre {
     transform: scale(0.92);
     opacity: 0;
+}
+
+
+/* ============================================================
+   06 — LOGOS INTERACTIFS
+   ============================================================ */
+
+/* Boutons contenant les logos */
+.logoZone {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    transform: translate(-50%, -50%);
+    z-index: 2;
+	
+	transition: transform 180ms ease;
+}
+
+/* Petit mouvement du logo au survol */
+@keyframes danseLogo {
+    0%   { rotate: 0deg; }
+    20%  { rotate: -10deg; translate: -4px 0; }
+    40%  { rotate: 10deg; translate: 4px 0; }
+    60%  { rotate: -10deg; translate: -4px 0; }
+    80%  { rotate: 10deg; translate: 4px 0; }
+    100% { rotate: 0deg; translate: 0 0; }
+}
+
+/* Souris : le logo grossit au survol */
+.logoZone:hover {
+	animation: danseLogo 1.2s ease-in-out;
+    transform: translate(-50%, -50%) scale(1.12);
+}
+
+/* Téléphone : petit effet pendant l'appui */
+.logoZone:active {
+	animation: danseLogo 1.2s ease-in-out;
+    transform: translate(-50%, -50%) scale(0.92);
+}
+
+/* Images des logos */
+.logoZone img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+/* Position provisoire du logo Liste Loot */
+#boutonListeLoot {
+    left: 72%;
+    top: 33%;
+	width: 12%;
+}
+
+/* Position provisoire du logo Action Zone */
+#boutonActionZone {
+    left: 37%;
+    top: 52%;
+	width: 7%;
+}
+
+
+/* ============================================================
+   07 — IMAGES D'INFORMATION DES ZONES
+   ============================================================ */
+
+/* Images d'information masquées par défaut */
+.imageInfo.masquee {
+    display: none;
+}
+
+/* Images d'information lorsqu'elles sont affichées */
+.imageInfo:not(.masquee) {
+    position: absolute;
+    left: 0;
+	top: 0;
+	bottom: auto;
+	margin: 0;
+    max-width: 80%;
+    max-height: 80%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    z-index: 3;
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   08 — ADAPTATION AUX ÉCRANS MOBILES
+   ============================================================ */
+
+@media (max-width: 600px) {
+    .zone {
+        border-width: 1.5px;
+    }
 }

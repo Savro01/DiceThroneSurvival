@@ -28,7 +28,9 @@ const zones = [
 		positionY: 30.1,
 		diametre: 9.4,
 		etat: "normale",
-		image: "images/zones/zone_03_la_forge_ecarlate.jpg"
+		image: "images/zones/zone_03_la_forge_ecarlate.jpg",
+		imageLoot: "",
+        imageAction: ""
 	},
 	{
 		nom: "La grotte sous marine",
@@ -36,7 +38,9 @@ const zones = [
 		positionY: 45.4,
 		diametre: 9,
 		etat: "normale",
-		image: "images/zones/zone_10_la_grotte_sous_marine.jpg"
+		image: "images/zones/zone_10_la_grotte_sous_marine.jpg",
+		imageLoot: "",
+        imageAction: ""
 	}
 
     // Pour ajouter une zone, copie un objet et modifie ses valeurs.
@@ -527,7 +531,86 @@ fenetreZone.addEventListener("click", (event) => {
    05 — VUES DÉTAILLÉES ET CONTENU
    ============================================================ */
 
-// Les panneaux, butins, effets et équipements seront ajoutés ici.
+ // --- Affichage des informations au survol ou au toucher ---
+
+const logoLoot = document.getElementById("boutonListeLoot");
+const logoAction = document.getElementById("boutonActionZone");
+
+const infoLoot = document.getElementById("imageListeLoot");
+const infoAction = document.getElementById("imageActionZone");
+
+let logoActif = null;
+
+// Cache les deux images d'information.
+function cacherInfos() {
+    infoLoot.classList.add("masquee");
+    infoAction.classList.add("masquee");
+    logoActif = null;
+}
+
+// Affiche l'image associée au logo.
+function afficherInfo(logo, imageInfo) {
+    const imageZone = document.getElementById("imageZone");
+
+    // Pour le test, on utilise l'image de la zone actuelle.
+    imageInfo.src = imageZone.src;
+    imageInfo.alt = "Image temporaire de test";
+
+    infoLoot.style.pointerEvents = "none";
+    infoAction.style.pointerEvents = "none";
+
+    infoLoot.classList.add("masquee");
+    infoAction.classList.add("masquee");
+
+	const positionLogo = logo.getBoundingClientRect();
+	const positionSurface = document.getElementById("surfaceZone").getBoundingClientRect();
+	const hauteurLogo = positionLogo.height;
+	
+	imageInfo.style.left = `${positionLogo.right - positionSurface.left + 8}px`;
+	imageInfo.style.top = `${positionLogo.top - positionSurface.top - hauteurLogo * 0.5}px`;
+	imageInfo.style.bottom = "auto";
+
+    imageInfo.classList.remove("masquee");
+    logoActif = logo;
+}
+
+// Ordinateur : affichage au survol.
+logoLoot.addEventListener("mouseenter", () => {
+    afficherInfo(logoLoot, infoLoot);
+});
+
+logoLoot.addEventListener("mouseleave", cacherInfos);
+
+logoAction.addEventListener("mouseenter", () => {
+    afficherInfo(logoAction, infoAction);
+});
+
+logoAction.addEventListener("mouseleave", cacherInfos);
+
+// Téléphone : affichage au toucher.
+logoLoot.addEventListener("click", (event) => {
+    if (event.pointerType === "mouse") return;
+
+    event.stopPropagation();
+
+    if (logoActif === logoLoot) {
+        cacherInfos();
+    } else {
+        afficherInfo(logoLoot, infoLoot);
+    }
+});
+
+logoAction.addEventListener("click", (event) => {
+    if (event.pointerType === "mouse") return;
+
+    event.stopPropagation();
+
+    if (logoActif === logoAction) {
+        cacherInfos();
+    } else {
+        afficherInfo(logoAction, infoAction);
+    }
+});
 
 
 /* ============================================================

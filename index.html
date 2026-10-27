@@ -24,10 +24,51 @@
 
     <div id="fenetreZone" class="masquee">
         <div id="fondFenetre"></div>
+		<div id="contenuFenetre">
+			<div id="surfaceZone">
 
-        <div id="contenuFenetre">
-            <img id="imageZone" src="" alt="">
-        </div>
+				<!-- Image principale de la zone -->
+				<img id="imageZone" src="" alt="">
+
+				<!-- Logos interactifs -->
+				<button
+					id="boutonListeLoot"
+					class="logoZone"
+					type="button"
+					aria-label="Afficher la liste de loot"
+					aria-expanded="false"
+				>
+					<img src="images/LogoListeLoot.png" alt="">
+				</button>
+
+				<button
+					id="boutonActionZone"
+					class="logoZone"
+					type="button"
+					aria-label="Afficher l'action de la zone"
+					aria-expanded="false"
+				>
+					<img src="images/LogoActionZone.png" alt="">
+				</button>
+
+				<!-- Image d'information du loot -->
+				<img
+					id="imageListeLoot"
+					class="imageInfo masquee"
+					src=""
+					alt="Liste de loot et effet de zone"
+				>
+
+				<!-- Image d'information de l'action -->
+				<img
+					id="imageActionZone"
+					class="imageInfo masquee"
+					src=""
+					alt="Action réalisable dans cette zone"
+				>
+
+			</div>
+		</div>
     </div>
 
     <script src="script.js"></script>
