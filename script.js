@@ -523,6 +523,7 @@ function fermerFenetreZone() {
 fenetreZone.addEventListener("click", (event) => {
     if (!imageZone.contains(event.target)) {
         fermerFenetreZone();
+        cacherInfos();
     }
 });
 
@@ -676,6 +677,28 @@ logoAction.addEventListener("click", (event) => {
     gererAppui(logoAction, infoAction, event);
 });
 
+// --- Fermeture au clic extérieur ---
+
+document.addEventListener("pointerdown", (event) => {
+    const cible = event.target;
+
+    // Un appui sur un logo doit conserver la fenêtre ouverte.
+    if (
+        cible.closest("#boutonListeLoot") ||
+        cible.closest("#boutonActionZone")
+    ) {
+        return;
+    }
+
+    // Un appui directement sur l'image principale ne la ferme pas.
+    if (imageZone.contains(cible)) {
+        return;
+    }
+
+    // Tout appui ailleurs ferme la fenêtre et ses informations.
+    fermerFenetreZone();
+    cacherInfos();
+});
 
 
 /* ============================================================
