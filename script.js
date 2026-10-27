@@ -521,10 +521,22 @@ function fermerFenetreZone() {
 }
 
 fenetreZone.addEventListener("click", (event) => {
-    if (!imageZone.contains(event.target)) {
-        fermerFenetreZone();
-        cacherInfos();
+    // Un clic sur un logo ne ferme jamais la fenêtre.
+    if (
+        event.target.closest("#boutonListeLoot") ||
+        event.target.closest("#boutonActionZone")
+    ) {
+        return;
     }
+
+    // Un clic sur l'image principale ne ferme pas la fenêtre.
+    if (imageZone.contains(event.target)) {
+        return;
+    }
+
+    // Un clic sur le fond ferme la fenêtre et ses informations.
+    fermerFenetreZone();
+    cacherInfos();
 });
 
 
@@ -676,30 +688,6 @@ logoLoot.addEventListener("click", (event) => {
 logoAction.addEventListener("click", (event) => {
     gererAppui(logoAction, infoAction, event);
 });
-
-// --- Fermeture au clic extérieur ---
-
-document.addEventListener("pointerdown", (event) => {
-    const cible = event.target;
-
-    // Un appui sur un logo doit conserver la fenêtre ouverte.
-    if (
-        cible.closest("#boutonListeLoot") ||
-        cible.closest("#boutonActionZone")
-    ) {
-        return;
-    }
-
-    // Un appui directement sur l'image principale ne la ferme pas.
-    if (imageZone.contains(cible)) {
-        return;
-    }
-
-    // Tout appui ailleurs ferme la fenêtre et ses informations.
-    fermerFenetreZone();
-    cacherInfos();
-});
-
 
 /* ============================================================
    06 — INITIALISATION GÉNÉRALE
