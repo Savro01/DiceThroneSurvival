@@ -531,7 +531,7 @@ fenetreZone.addEventListener("click", (event) => {
    05 — VUES DÉTAILLÉES ET CONTENU
    ============================================================ */
 
- // --- Affichage des informations au survol ou au toucher ---
+// --- Affichage des informations au survol ou au toucher ---
 
 const logoLoot = document.getElementById("boutonListeLoot");
 const logoAction = document.getElementById("boutonActionZone");
@@ -549,86 +549,133 @@ function cacherInfos() {
 }
 
 // Affiche l'image associée au logo.
+
 function afficherInfo(logo, imageInfo) {
     const zone = zones.find(z => z.nom === imageZone.alt);
 
     if (!zone) return;
 
-    // Choisit l'image selon le logo utilisé.
     const cheminImage = logo === logoLoot
         ? zone.imageLoot
         : zone.imageAction;
 
-    imageInfo.src = cheminImage;
+    infoLoot.classList.add("masquee");
+    infoAction.classList.add("masquee");
+
+    imageInfo.onload = () => {
+        const positionLogo = logo.getBoundingClientRect();
+        const surface = document.getElementById("surfaceZone");
+        const positionSurface = surface.getBoundingClientRect();
+
+        // Affiche temporairement l'image pour mesurer ses dimensions.
+        imageInfo.classList.remove("masquee");
+
+        const largeur = imageInfo.getBoundingClientRect().width;
+        const hauteur = imageInfo.getBoundingClientRect().height;
+
+        // Position initiale : au-dessus et à droite du logo.
+		const decalageHorizontal = 4;
+		const decalageVertical = 4;
+
+		let gauche = positionLogo.right - positionSurface.left - decalageHorizontal;
+		let haut = positionLogo.top - positionSurface.top - hauteur + decalageVertical;
+
+        // Convertit les limites de la fenêtre en coordonnées de la surface.
+        const marge = 8;
+        const gaucheMin = window.scrollX + marge - positionSurface.left;
+        const gaucheMax = window.scrollX + window.innerWidth - marge
+            - positionSurface.left - largeur;
+        const hautMin = window.scrollY + marge - positionSurface.top;
+        const hautMax = window.scrollY + window.innerHeight - marge
+            - positionSurface.top - hauteur;
+
+        // Si l'image dépasse à droite, la place à gauche du logo.
+        if (gauche > gaucheMax) {
+            gauche = positionLogo.left - positionSurface.left - largeur;
+        }
+
+        // Si elle dépasse en haut, la place sous le logo.
+        if (haut < hautMin) {
+            haut = positionLogo.bottom - positionSurface.top;
+        }
+
+        // Dernière sécurité : l'image reste dans les limites disponibles.
+        gauche = Math.max(gaucheMin, Math.min(gauche, gaucheMax));
+        haut = Math.max(hautMin, Math.min(haut, hautMax));
+
+        imageInfo.style.left = `${gauche}px`;
+        imageInfo.style.top = `${haut}px`;
+        imageInfo.style.bottom = "auto";
+        imageInfo.style.right = "auto";
+        imageInfo.style.pointerEvents = "none";
+
+        logoActif = logo;
+    };
+
     imageInfo.alt = logo === logoLoot
         ? `Liste de loot : ${zone.nom}`
         : `Action : ${zone.nom}`;
 
-    infoLoot.style.pointerEvents = "none";
-    infoAction.style.pointerEvents = "none";
+    imageInfo.src = cheminImage;
 
-    infoLoot.classList.add("masquee");
-    infoAction.classList.add("masquee");
-
-	const positionLogo = logo.getBoundingClientRect();
-	const positionSurface = document.getElementById("surfaceZone").getBoundingClientRect();
-
-	const decalageHorizontal = logo === logoLoot ? 0.10 : 0.10;
-	const decalageVertical = logo === logoLoot ? 0.45 : 1.05;
-
-	imageInfo.style.left =
-		`${positionLogo.right - positionSurface.left - positionLogo.width * decalageHorizontal}px`;
-
-	imageInfo.style.top =
-		`${positionLogo.top - positionSurface.top - positionLogo.height * decalageVertical}px`;
-	
-    imageInfo.style.bottom = "auto";
-
-    imageInfo.classList.remove("masquee");
-    logoActif = logo;
+    // Si l'image est déjà chargée, on déclenche aussi le calcul.
+    if (imageInfo.complete && imageInfo.naturalWidth > 0) {
+        imageInfo.onload();
+    }
 }
 
- // Ordinateur : affichage au survol.
+
+// Ordinateur : affichage au survol.
+const appareilAvecSouris = window.matchMedia(
+    "(hover: hover) and (pointer: fine)"
+);
+
 logoLoot.addEventListener("mouseenter", () => {
-    afficherInfo(logoLoot, infoLoot);
-});
-
-logoLoot.addEventListener("mouseleave", cacherInfos);
-
-logoAction.addEventListener("mouseenter", () => {
-    afficherInfo(logoAction, infoAction);
-});
-
-logoAction.addEventListener("mouseleave", cacherInfos);
-
-// Téléphone et écran tactile : affichage au toucher.
-logoLoot.addEventListener("click", (event) => {
-    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-        return;
-    }
-
-    event.stopPropagation();
-
-    if (logoActif === logoLoot) {
-        cacherInfos();
-    } else {
+    if (appareilAvecSouris.matches) {
         afficherInfo(logoLoot, infoLoot);
     }
 });
 
-logoAction.addEventListener("click", (event) => {
-    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-        return;
-    }
-
-    event.stopPropagation();
-
-    if (logoActif === logoAction) {
+logoLoot.addEventListener("mouseleave", () => {
+    if (appareilAvecSouris.matches) {
         cacherInfos();
-    } else {
+    }
+});
+
+logoAction.addEventListener("mouseenter", () => {
+    if (appareilAvecSouris.matches) {
         afficherInfo(logoAction, infoAction);
     }
 });
+
+logoAction.addEventListener("mouseleave", () => {
+    if (appareilAvecSouris.matches) {
+        cacherInfos();
+    }
+});
+
+// Téléphone et écran tactile : affichage au toucher.
+function gererAppui(logo, imageInfo, event) {
+    if (appareilAvecSouris.matches) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (logoActif === logo) {
+        cacherInfos();
+    } else {
+        afficherInfo(logo, imageInfo);
+    }
+}
+
+logoLoot.addEventListener("click", (event) => {
+    gererAppui(logoLoot, infoLoot, event);
+});
+
+logoAction.addEventListener("click", (event) => {
+    gererAppui(logoAction, infoAction, event);
+});
+
 
 
 /* ============================================================
