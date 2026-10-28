@@ -44,7 +44,7 @@ const zones = [
 	}
 
     // Pour ajouter une zone, copie un objet et modifie ses valeurs.
-    // États possibles : "normale", "menacee", "inaccessible"
+    // États possibles : "normale", "dangereuse", "detruite"
 ];
 
 

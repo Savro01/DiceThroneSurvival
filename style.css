@@ -102,10 +102,10 @@ body {
     transition: background-color 0.15s ease;
 }
 
-/* Zone normale : verte */
+/* Zone normale : transparente */
 .zone.normale {
-    border-color: #39d353;
-    background-color: rgba(57, 211, 83, 0.20);
+    border-color: transparent;
+    background-color: transparent;
 }
 
 /* Zone dangereuse : rouge */
@@ -114,10 +114,10 @@ body {
     background-color: rgba(255, 69, 69, 0.25);
 }
 
-/* Zone détruite : grise et inaccessible */
+/* Zone détruite : gris foncé et inaccessible */
 .zone.detruite {
-    border-color: #999999;
-    background-color: rgba(153, 153, 153, 0.25);
+    border-color: #555555;
+    background-color: rgba(45, 45, 45, 0.65);
 
     cursor: not-allowed;
     pointer-events: none;
