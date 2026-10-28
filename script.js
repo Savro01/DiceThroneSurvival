@@ -22,15 +22,15 @@ zoneNavigation.addEventListener("dragstart", (event) => {
 // Le diamètre est un pourcentage de sa largeur.
 
 const zones = [
-	{
+	{	
 		nom: "La forge écarlate",
 		positionX: 10.2,
 		positionY: 30.1,
 		diametre: 9.4,
 		etat: "normale",
 		image: "images/zones/zone_03_la_forge_ecarlate.jpg",
-		imageLoot: "images/ImageLootActionPlaceholder.jpg",
-		imageAction: "images/ImageLootActionPlaceholder.jpg"
+		imageLoot: "images/listeLoot/ListeLoot3.png",
+		imageAction: "images/listeLoot/ListeLoot3.png"
 	},
 	{
 		nom: "La grotte sous marine",
@@ -39,8 +39,8 @@ const zones = [
 		diametre: 9,
 		etat: "normale",
 		image: "images/zones/zone_10_la_grotte_sous_marine.jpg",
-		imageLoot: "images/ImageLootActionPlaceholder.jpg",
-		imageAction: "images/ImageLootActionPlaceholder.jpg"
+		imageLoot: "images/listeLoot/ListeLoot10.png",
+		imageAction: "images/listeLoot/ListeLoot10.png",
 	}
 
     // Pour ajouter une zone, copie un objet et modifie ses valeurs.
