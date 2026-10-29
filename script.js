@@ -892,13 +892,51 @@ videoChargement.addEventListener("error", terminerChargement);
 
 
 /* ============================================================
-   07 — INITIALISATION GÉNÉRALE
+   07 — GESTION DU SON
    ============================================================ */
-   
+
+const sonFond = document.getElementById("sonFond");
+let tentativeSonEffectuee = false;
+
+function lancerSonFond() {
+    if (!sonFond || !sonFond.paused || tentativeSonEffectuee) return;
+
+    tentativeSonEffectuee = true;
+    sonFond.volume = 0.25;
+
+    sonFond.play()
+        .then(() => {
+            console.log("Musique lancée !");
+        })
+        .catch((erreur) => {
+            console.log("Musique en attente d'une interaction :", erreur);
+            tentativeSonEffectuee = false;
+        });
+}
+
+// Si le navigateur bloque l'autoplay, le premier toucher ou clic relance la musique
+function activerSonAuPremierGeste() {
+    lancerSonFond();
+
+    if (sonFond && !sonFond.paused) {
+        document.removeEventListener("pointerdown", activerSonAuPremierGeste);
+    }
+}
+
+document.addEventListener("pointerdown", activerSonAuPremierGeste);
+
+
+/* ============================================================
+   08 — INITIALISATION GÉNÉRALE
+   ============================================================ */
+
 function demarrerCarte() {
     actualiserDimensionsCarte();
     creerZones();
     initialiserNavigation();
+
+    // La carte est prête : on lance la musique
+    lancerSonFond();
 }
 
 if (mapPrincipale.readyState >= 1 && mapPrincipale.videoWidth) {
@@ -908,3 +946,4 @@ if (mapPrincipale.readyState >= 1 && mapPrincipale.videoWidth) {
         once: true
     });
 }
+
