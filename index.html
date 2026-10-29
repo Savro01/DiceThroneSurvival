@@ -8,15 +8,24 @@
 </head>
 
 <body>
+	<div id="ecranChargement">
+		<video id="videoChargement" autoplay muted playsinline preload="auto">
+			<source src="videos/Chargement.mp4" type="video/mp4">
+		</video>
+	</div>
     <main id="zoneNavigation">
         <div id="carteInteractive">
             <div id="surfaceCarte">
-                <img
-                    id="mapPrincipale"
-                    src="images/MapPrincipale.jpg"
-                    alt="Carte de Dice Throne Survival"
-                    draggable="false"
-                >
+				<video
+					id="mapPrincipale"
+					autoplay
+					muted
+					loop
+					playsinline
+					preload="auto"
+				>
+					<source src="videos/MapPrincipale.mp4" type="video/mp4">
+				</video>
                 <div id="zones"></div>
             </div>
         </div>

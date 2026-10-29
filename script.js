@@ -21,27 +21,209 @@ zoneNavigation.addEventListener("dragstart", (event) => {
 // Les positions sont des pourcentages de l'image.
 // Le diamètre est un pourcentage de sa largeur.
 
+
+
 const zones = [
-	{	
-		nom: "La forge écarlate",
-		positionX: 10.2,
-		positionY: 30.1,
-		diametre: 9.4,
-		etat: "normale",
-		image: "images/zones/zone_03_la_forge_ecarlate.jpg",
-		imageLoot: "images/listeLoot/ListeLoot3.png",
-		imageAction: "images/listeLoot/ListeLoot3.png"
-	},
-	{
-		nom: "La grotte sous marine",
-		positionX: 66.6,
-		positionY: 45.4,
-		diametre: 9,
-		etat: "normale",
-		image: "images/zones/zone_10_la_grotte_sous_marine.jpg",
-		imageLoot: "images/listeLoot/ListeLoot10.png",
-		imageAction: "images/listeLoot/ListeLoot10.png",
-	}
+    {
+        nom: "Le volcan",
+        positionX: 19.4,
+        positionY: 11.0,
+        diametre: 9.6,
+        etat: "normale",
+        image: "images/zones/zone_01_le_volcan.jpg",
+        imageLoot: "images/listeLoot/ListeLoot1.png",
+        imageAction: "images/listeAction/ActionZone1.png"
+    },
+    {
+        nom: "La montagne sacrée",
+        positionX: 30.7,
+        positionY: 9.6,
+        diametre: 9.6,
+        etat: "normale",
+        image: "images/zones/zone_02_la_montagne_sacree.jpg",
+        imageLoot: "images/listeLoot/ListeLoot2.png",
+        imageAction: "images/listeAction/ActionZone2.png"
+    },
+    {
+        nom: "La forge écarlate",
+        positionX: 10.2,
+        positionY: 30.3,
+        diametre: 9.4,
+        etat: "normale",
+        image: "images/zones/zone_03_la_forge_ecarlate.jpg",
+        imageLoot: "images/listeLoot/ListeLoot3.png",
+        imageAction: "images/listeAction/ActionZone3.png"
+    },
+    {
+        nom: "Le cimetière des titans",
+        positionX: 31.3,
+        positionY: 27.4,
+        diametre: 9.3,
+        etat: "normale",
+        image: "images/zones/zone_04_le_cimetiere_des_titans.jpg",
+        imageLoot: "images/listeLoot/ListeLoot4.png",
+        imageAction: "images/listeAction/ActionZone4.png"
+    },
+    {
+        nom: "Les chutes majestueuses",
+        positionX: 51.6,
+        positionY: 28.6,
+        diametre: 8.9,
+        etat: "normale",
+        image: "images/zones/zone_05_les_chutes_majestueuses.jpg",
+        imageLoot: "images/listeLoot/ListeLoot5.png",
+        imageAction: "images/listeAction/ActionZone5.png"
+    },
+    {
+        nom: "La forêt des brumes",
+        positionX: 77.1,
+        positionY: 11.2,
+        diametre: 9.4,
+        etat: "normale",
+        image: "images/zones/zone_06_la_foret_des_brumes.jpg",
+        imageLoot: "images/listeLoot/ListeLoot6.png",
+        imageAction: "images/listeAction/ActionZone6.png"
+    },
+    {
+        nom: "La tour des mages",
+        positionX: 89.9,
+        positionY: 10.7,
+        diametre: 8.8,
+        etat: "normale",
+        image: "images/zones/zone_07_la_tour_des_mages.jpg",
+        imageLoot: "images/listeLoot/ListeLoot7.png",
+        imageAction: "images/listeAction/ActionZone7.png"
+    },
+    {
+        nom: "La mer de nuages",
+        positionX: 76.8,
+        positionY: 28.6,
+        diametre: 8.8,
+        etat: "normale",
+        image: "images/zones/zone_08_la_mer_de_nuages.jpg",
+        imageLoot: "images/listeLoot/ListeLoot8.png",
+        imageAction: "images/listeAction/ActionZone8.png"
+    },
+    {
+        nom: "L'aiguille noire",
+        positionX: 87.3,
+        positionY: 40.9,
+        diametre: 8.9,
+        etat: "normale",
+        image: "images/zones/zone_09_laiguille_noire.jpg",
+        imageLoot: "images/listeLoot/ListeLoot9.png",
+        imageAction: "images/listeAction/ActionZone9.png"
+    },
+    {
+        nom: "La grotte sous-marine",
+        positionX: 66.6,
+        positionY: 45.6,
+        diametre: 9,
+        etat: "normale",
+        image: "images/zones/zone_10_la_grotte_sous_marine.jpg",
+        imageLoot: "images/listeLoot/ListeLoot10.png",
+        imageAction: "images/listeAction/ActionZone10.png"
+    },
+    {
+        nom: "La cité éthérée",
+        positionX: 55.1,
+        positionY: 48.0,
+        diametre: 9.5,
+        etat: "normale",
+        image: "images/zones/zone_11_la_cite_etheree.jpg",
+        imageLoot: "images/listeLoot/ListeLoot11.png",
+        imageAction: "images/listeAction/ActionZone11.png"
+    },
+    {
+        nom: "La jungle luxuriante",
+        positionX: 36.7,
+        positionY: 53.5,
+        diametre: 9.4,
+        etat: "normale",
+        image: "images/zones/zone_12_la_jungle_luxuriante.jpg",
+        imageLoot: "images/listeLoot/ListeLoot12.png",
+        imageAction: "images/listeAction/ActionZone12.png"
+    },
+    {
+        nom: "La citadelle brisée",
+        positionX: 19.5,
+        positionY: 56.6,
+        diametre: 9.4,
+        etat: "normale",
+        image: "images/zones/zone_13_la_citadelle_brisee.jpg",
+        imageLoot: "images/listeLoot/ListeLoot13.png",
+        imageAction: "images/listeAction/ActionZone13.png"
+    },
+    {
+        nom: "Le refuge de l'ermite",
+        positionX: 5.5,
+        positionY: 61.5,
+        diametre: 9.4,
+        etat: "normale",
+        image: "images/zones/zone_14_le_refuge_de_lermite.jpg",
+        imageLoot: "images/listeLoot/ListeLoot14.png",
+        imageAction: "images/listeAction/ActionZone14.png"
+    },
+    {
+        nom: "Le désert aride",
+        positionX: 29.1,
+        positionY: 73.5,
+        diametre: 9.1,
+        etat: "normale",
+        image: "images/zones/zone_15_le_desert_aride.jpg",
+        imageLoot: "images/listeLoot/ListeLoot15.png",
+        imageAction: "images/listeAction/ActionZone15.png"
+    },
+    {
+        nom: "Le colisée éternel",
+        positionX: 44.5,
+        positionY: 77.9,
+        diametre: 9.4,
+        etat: "normale",
+        image: "images/zones/zone_16_le_colisee_eternel.jpg",
+        imageLoot: "images/listeLoot/ListeLoot16.png",
+        imageAction: "images/listeAction/ActionZone16.png"
+    },
+    {
+        nom: "Le bastion sombre",
+        positionX: 74,
+        positionY: 68.5,
+        diametre: 9,
+        etat: "normale",
+        image: "images/zones/zone_17_le_bastion_sombre.jpg",
+        imageLoot: "images/listeLoot/ListeLoot17.png",
+        imageAction: "images/listeAction/ActionZone17.png"
+    },
+    {
+        nom: "Le marais enchanté",
+        positionX: 91.5,
+        positionY: 73.9,
+        diametre: 9.3,
+        etat: "normale",
+        image: "images/zones/zone_18_le_marais_enchante.jpg",
+        imageLoot: "images/listeLoot/ListeLoot18.png",
+        imageAction: "images/listeAction/ActionZone18.png"
+    },
+    {
+        nom: "La fosse aux damnés",
+        positionX: 65.0,
+        positionY: 84.8,
+        diametre: 9.3,
+        etat: "normale",
+        image: "images/zones/zone_19_la_fosse_aux_damnes.jpg",
+        imageLoot: "images/listeLoot/ListeLoot19.png",
+        imageAction: "images/listeAction/ActionZone19.png"
+    },
+    {
+        nom: "L'île déserte",
+        positionX: 13.7,
+        positionY: 90.3,
+        diametre: 8.7,
+        etat: "normale",
+        image: "images/zones/zone_20_lile_deserte.jpg",
+        imageLoot: "images/listeLoot/ListeLoot20.png",
+        imageAction: "images/listeAction/ActionZone20.png"
+    }
 
     // Pour ajouter une zone, copie un objet et modifie ses valeurs.
     // États possibles : "normale", "dangereuse", "detruite"
@@ -77,18 +259,19 @@ let milieuDepartY = 0;
 let animationRetour = null;
 
 
-// --- Dimensions de l'image ---
+// --- Dimensions de la map principale ---
 
 function actualiserDimensionsCarte() {
     const largeurFenetre = zoneNavigation.clientWidth;
     const hauteurFenetre = zoneNavigation.clientHeight;
 
-    const largeurImage = mapPrincipale.naturalWidth;
-    const hauteurImage = mapPrincipale.naturalHeight;
+    // Une vidéo utilise videoWidth et videoHeight.
+    const largeurImage = mapPrincipale.videoWidth;
+    const hauteurImage = mapPrincipale.videoHeight;
 
     if (!largeurImage || !hauteurImage) return;
 
-    // Ajuste l'image à l'écran sans déformer ses proportions.
+    // Ajuste la vidéo à l'écran sans déformer ses proportions.
     const echelle = Math.min(
         largeurFenetre / largeurImage,
         hauteurFenetre / hauteurImage
@@ -100,6 +283,7 @@ function actualiserDimensionsCarte() {
     surfaceCarte.style.height =
         `${hauteurImage * echelle}px`;
 }
+
 
 
 // --- Affichage de la carte ---
@@ -689,8 +873,26 @@ logoAction.addEventListener("click", (event) => {
     gererAppui(logoAction, infoAction, event);
 });
 
+
 /* ============================================================
-   06 — INITIALISATION GÉNÉRALE
+   06 — CHARGEMENT DE LA MAP
+   ============================================================ */
+   
+const ecranChargement = document.getElementById("ecranChargement");
+const videoChargement = document.getElementById("videoChargement");
+
+function terminerChargement() {
+    ecranChargement.classList.add("termine");
+}
+
+videoChargement.addEventListener("ended", terminerChargement);
+
+// Si la vidéo ne peut pas être lue, ne bloque pas le site indéfiniment.
+videoChargement.addEventListener("error", terminerChargement);
+
+
+/* ============================================================
+   07 — INITIALISATION GÉNÉRALE
    ============================================================ */
    
 function demarrerCarte() {
@@ -699,10 +901,10 @@ function demarrerCarte() {
     initialiserNavigation();
 }
 
-if (mapPrincipale.complete && mapPrincipale.naturalWidth) {
+if (mapPrincipale.readyState >= 1 && mapPrincipale.videoWidth) {
     demarrerCarte();
 } else {
-    mapPrincipale.addEventListener("load", demarrerCarte, {
+    mapPrincipale.addEventListener("loadedmetadata", demarrerCarte, {
         once: true
     });
 }
