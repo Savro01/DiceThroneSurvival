@@ -49,6 +49,7 @@ body {
     height: 100%;
 
     transform-origin: center;
+    touch-action: none;
 }
 
 /* Surface correspondant exactement à l'image */
@@ -58,6 +59,7 @@ body {
     top: 50%;
 
     transform: translate(-50%, -50%);
+    touch-action: none;
 }
 
 /* Video de la carte */
