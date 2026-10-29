@@ -328,6 +328,13 @@ body {
     pointer-events: none;
 }
 
+/* Agrandir la liste des loots uniquement sur PC */
+@media (min-width: 768px) {
+    #imageListeLoot {
+        transform: scale(1.50);
+        transform-origin: center;
+    }
+}
 
 /* ============================================================
    08 — ADAPTATION AUX ÉCRANS MOBILES

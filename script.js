@@ -788,7 +788,7 @@ function afficherInfo(logo, imageInfo) {
 
         // Si l'image dépasse à droite, la place à gauche du logo.
         if (gauche > gaucheMax) {
-            gauche = positionLogo.left - positionSurface.left - largeur;
+            gauche = positionLogo.left - positionSurface.left - largeur + 80;
         }
 
         // Si elle dépasse en haut, la place sous le logo.
