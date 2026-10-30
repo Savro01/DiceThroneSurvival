@@ -925,9 +925,24 @@ function activerSonAuPremierGeste() {
 
 document.addEventListener("pointerdown", activerSonAuPremierGeste);
 
+/* ============================================================
+   08 — AFFICHAGE DES CHEMINS
+   ============================================================ */
+
+const calqueChemins = document.getElementById("calqueChemins");
+const boutonChemins = document.getElementById("boutonChemins");
+
+boutonChemins.addEventListener("click", () => {
+    const cheminsVisibles = calqueChemins.classList.toggle("visible");
+
+    boutonChemins.textContent = cheminsVisibles
+        ? "Masquer les chemins"
+        : "Afficher les chemins";
+});
+
 
 /* ============================================================
-   08 — INITIALISATION GÉNÉRALE
+   09 — INITIALISATION GÉNÉRALE
    ============================================================ */
 
 function demarrerCarte() {
