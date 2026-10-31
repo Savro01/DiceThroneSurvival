@@ -723,19 +723,6 @@ fenetreZone.addEventListener("click", (event) => {
     cacherInfos();
 });
 
-document.addEventListener("click", (event) => {
-    // Rien à faire si aucune zone n'est ouverte.
-    if (fenetreZone.classList.contains("masquee")) return;
-
-    // Un clic sur une zone est géré par son propre bouton.
-    if (event.target.closest(".zone")) return;
-
-    // Un clic en dehors de la fenêtre ferme tout.
-    if (!fenetreZone.contains(event.target)) {
-        fermerFenetreZone();
-        cacherInfos();
-    }
-});
 
 /* ============================================================
    05 — VUES DÉTAILLÉES ET CONTENU
@@ -886,6 +873,18 @@ logoAction.addEventListener("click", (event) => {
     gererAppui(logoAction, infoAction, event);
 });
 
+document.addEventListener("click", (event) => {
+    // Si le clic est sur un logo, on ne fait rien.
+    if (
+        event.target.closest("#boutonListeLoot") ||
+        event.target.closest("#boutonActionZone")
+    ) {
+        return;
+    }
+
+    // Sinon, on ferme uniquement l'image Loot/Action.
+    cacherInfos();
+});
 
 /* ============================================================
    06 — CHARGEMENT DE LA MAP
