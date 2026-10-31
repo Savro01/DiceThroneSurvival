@@ -328,11 +328,12 @@ body {
     pointer-events: none;
 }
 
-/* Agrandir la liste des loots uniquement sur PC */
+/* Taille adaptative de la liste de loot sur PC */
 @media (min-width: 768px) {
     #imageListeLoot {
-        transform: scale(1.50);
-        transform-origin: center;
+        max-width: min(90vw, 900px);
+        max-height: 85vh;
+        transform: none;
     }
 }
 
