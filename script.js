@@ -723,6 +723,19 @@ fenetreZone.addEventListener("click", (event) => {
     cacherInfos();
 });
 
+document.addEventListener("click", (event) => {
+    // Rien à faire si aucune zone n'est ouverte.
+    if (fenetreZone.classList.contains("masquee")) return;
+
+    // Un clic sur une zone est géré par son propre bouton.
+    if (event.target.closest(".zone")) return;
+
+    // Un clic en dehors de la fenêtre ferme tout.
+    if (!fenetreZone.contains(event.target)) {
+        fermerFenetreZone();
+        cacherInfos();
+    }
+});
 
 /* ============================================================
    05 — VUES DÉTAILLÉES ET CONTENU
