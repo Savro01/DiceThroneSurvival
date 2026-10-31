@@ -873,8 +873,8 @@ logoAction.addEventListener("click", (event) => {
     gererAppui(logoAction, infoAction, event);
 });
 
+// Ferme les informations lorsqu'on clique ailleurs que sur les logos.
 document.addEventListener("click", (event) => {
-    // Si le clic est sur un logo, on ne fait rien.
     if (
         event.target.closest("#boutonListeLoot") ||
         event.target.closest("#boutonActionZone")
@@ -882,9 +882,8 @@ document.addEventListener("click", (event) => {
         return;
     }
 
-    // Sinon, on ferme uniquement l'image Loot/Action.
     cacherInfos();
-});
+}, true);
 
 /* ============================================================
    06 — CHARGEMENT DE LA MAP
@@ -936,6 +935,26 @@ function activerSonAuPremierGeste() {
 }
 
 document.addEventListener("pointerdown", activerSonAuPremierGeste);
+
+// Met en pause la musique lorsque la page passe en arrière-plan.
+let musiqueEnLectureAvantMasquage = false;
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        musiqueEnLectureAvantMasquage = !sonFond.paused;
+
+        if (musiqueEnLectureAvantMasquage) {
+            sonFond.pause();
+        }
+    } else if (musiqueEnLectureAvantMasquage) {
+        musiqueEnLectureAvantMasquage = false;
+
+        // Autorise une nouvelle tentative de lecture.
+        tentativeSonEffectuee = false;
+
+        lancerSonFond();
+    }
+});
 
 /* ============================================================
    08 — AFFICHAGE DES CHEMINS
