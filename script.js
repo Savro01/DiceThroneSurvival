@@ -89,7 +89,7 @@ const zones = [
         positionX: 89.9,
         positionY: 10.7,
         diametre: 8.8,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_07_la_tour_des_mages.jpg",
         imageLoot: "images/listeLoot/ListeLoot7.png",
         imageAction: "images/listeAction/ActionZone7.png"
@@ -159,7 +159,7 @@ const zones = [
         positionX: 5.5,
         positionY: 61.5,
         diametre: 9.4,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_14_le_refuge_de_lermite.jpg",
         imageLoot: "images/listeLoot/ListeLoot14.png",
         imageAction: "images/listeAction/ActionZone14.png"
@@ -179,7 +179,7 @@ const zones = [
         positionX: 44.5,
         positionY: 77.9,
         diametre: 9.4,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_16_le_colisee_eternel.jpg",
         imageLoot: "images/listeLoot/ListeLoot16.png",
         imageAction: "images/listeAction/ActionZone16.png"
