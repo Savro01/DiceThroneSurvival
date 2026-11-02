@@ -8,11 +8,17 @@ const carteInteractive = document.getElementById("carteInteractive");
 const surfaceCarte = document.getElementById("surfaceCarte");
 const mapPrincipale = document.getElementById("mapPrincipale");
 const conteneurZones = document.getElementById("zones");
+const ensembleCarte = document.getElementById("ensembleCarte");
+const portraitsGauche = document.getElementById("portraitsGauche");
+const portraitsDroite = document.getElementById("portraitsDroite");
+
+const visionneusePortrait = document.getElementById("visionneusePortrait");
+const fondVisionneuse = document.getElementById("fondVisionneuse");
+const imagePortraitAgrandie = document.getElementById("imagePortraitAgrandie");
 
 zoneNavigation.addEventListener("dragstart", (event) => {
     event.preventDefault();
 });
-
 
 /* ============================================================
    02 — DONNÉES DES ZONES
@@ -282,6 +288,19 @@ function actualiserDimensionsCarte() {
 
     surfaceCarte.style.height =
         `${hauteurImage * echelle}px`;
+	
+	// Taille des portraits proportionnelle à la carte.
+	const taillePortrait = surfaceCarte.offsetHeight * 0.10;
+
+	ensembleCarte.style.setProperty(
+		"--taillePortrait",
+		`${taillePortrait}px`
+	);
+
+	ensembleCarte.style.setProperty(
+		"--ecartPortraits",
+		`${taillePortrait * 0.15}px`
+	);
 }
 
 
@@ -300,8 +319,8 @@ function obtenirLimites() {
     const largeurFenetre = zoneNavigation.clientWidth;
     const hauteurFenetre = zoneNavigation.clientHeight;
 
-    const largeurCarte = surfaceCarte.offsetWidth * zoom;
-    const hauteurCarte = surfaceCarte.offsetHeight * zoom;
+	const largeurCarte = ensembleCarte.offsetWidth * zoom;
+	const hauteurCarte = ensembleCarte.offsetHeight * zoom;
 
     return {
         limiteX: Math.max(
@@ -435,10 +454,14 @@ function obtenirDistanceDeuxDoigts() {
 // --- Début du déplacement ou du zoom ---
 
 zoneNavigation.addEventListener("pointerdown", (event) => {
-    if ((event.pointerType === "mouse" && event.button !== 0) || pointeurs.size >= 2 || event.target.closest(".zone")) {
-        return;
-    }
-	
+	if (
+		(event.pointerType === "mouse" && event.button !== 0) ||
+		pointeurs.size >= 2 ||
+		event.target.closest(".zone") ||
+		event.target.closest(".portraitJoueur")
+	) {
+		return;
+	}
     arreterAnimationRetour();
 
     pointeurs.set(event.pointerId, {
@@ -971,9 +994,72 @@ boutonChemins.addEventListener("click", () => {
         : "Afficher les chemins";
 });
 
+/* ============================================================
+   09 — PORTRAITS DES JOUEURS
+   ============================================================ */
+   
+function creerPortraits() {
+    for (let i = 1; i <= 24; i++) {
+        const portrait = document.createElement("img");
+
+        portrait.classList.add("portraitJoueur");
+        portrait.src = `images/joueurs/joueur_${String(i).padStart(2, "0")}.png`;
+        portrait.alt = `Joueur ${i}`;
+        portrait.draggable = false;
+
+		portrait.addEventListener("click", (event) => {
+			event.stopPropagation();
+			ouvrirVisionneusePortrait(portrait);
+		});
+
+        if (i <= 12) {
+            portraitsGauche.appendChild(portrait);
+        } else {
+            portraitsDroite.appendChild(portrait);
+        }
+    }
+}
+
+creerPortraits();
+
+let minuterieVisionneuse = null;
+
+function ouvrirVisionneusePortrait(portrait) {
+    imagePortraitAgrandie.src = portrait.src;
+    imagePortraitAgrandie.alt = portrait.alt;
+
+    clearTimeout(minuterieVisionneuse);
+
+    visionneusePortrait.classList.remove("fermetureEnCours");
+    visionneusePortrait.classList.add("ouvertureEnCours");
+    visionneusePortrait.classList.remove("masquee");
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            visionneusePortrait.classList.remove("ouvertureEnCours");
+        });
+    });
+}
+
+function fermerVisionneusePortrait() {
+    if (visionneusePortrait.classList.contains("masquee")) return;
+
+    visionneusePortrait.classList.add("fermetureEnCours");
+
+    clearTimeout(minuterieVisionneuse);
+
+    minuterieVisionneuse = setTimeout(() => {
+        visionneusePortrait.classList.add("masquee");
+        visionneusePortrait.classList.remove("fermetureEnCours");
+        imagePortraitAgrandie.src = "";
+    }, 550);
+}
+
+fondVisionneuse.addEventListener("click", fermerVisionneusePortrait);
+
 
 /* ============================================================
-   09 — INITIALISATION GÉNÉRALE
+   10 — INITIALISATION GÉNÉRALE
    ============================================================ */
 
 function demarrerCarte() {

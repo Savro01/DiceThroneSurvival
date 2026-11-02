@@ -13,24 +13,25 @@
 			<source src="videos/Chargement.mp4" type="video/mp4">
 		</video>
 	</div>
-    <main id="zoneNavigation">
-        <div id="carteInteractive">
-            <div id="surfaceCarte">
-				<video
-					id="mapPrincipale"
-					autoplay
-					muted
-					loop
-					playsinline
-					preload="auto"
-				>
-					<source src="videos/MapPrincipale.mp4" type="video/mp4">
-				</video>
-				<img id="calqueChemins" src="images/chemins.png" alt="">
-                <div id="zones"></div>
-            </div>
-        </div>
-    </main>
+	<main id="zoneNavigation">
+		<div id="carteInteractive">
+			<div id="ensembleCarte">
+
+				<div id="portraitsGauche" class="groupePortraits"></div>
+
+				<div id="surfaceCarte">
+					<video id="mapPrincipale" autoplay muted loop playsinline>
+						<source src="videos/MapPrincipale.mp4" type="video/mp4">
+					</video>
+					<img id="calqueChemins" src="images/chemins.png" alt="">
+					<div id="zones"></div>
+				</div>
+
+				<div id="portraitsDroite" class="groupePortraits"></div>
+
+			</div>
+		</div>
+	</main>
 	<button id="boutonChemins" type="button">
 		Afficher les chemins
 	</button>
@@ -82,6 +83,11 @@
 			</div>
 		</div>
     </div> 
+	<!-- Visionneuse des portraits -->
+	<div id="visionneusePortrait" class="masquee">
+		<div id="fondVisionneuse"></div>
+		<img id="imagePortraitAgrandie" src="" alt="Portrait du joueur">
+	</div>
     <audio id="sonFond" loop preload="auto">
         <source src="son/sonFond.mp3" type="audio/mpeg">
     </audio>

@@ -52,16 +52,6 @@ body {
     touch-action: none;
 }
 
-/* Surface correspondant exactement à l'image */
-#surfaceCarte {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-    touch-action: none;
-}
-
 /* Video de la carte */
 #mapPrincipale {
     display: block;
@@ -417,4 +407,138 @@ body {
     border-radius: 8px;
 
     cursor: pointer;
+}
+
+
+/* ============================================================
+   11 — PORTRAITS DES JOUEURS
+   ============================================================ */
+
+#ensembleCarte {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+    gap: var(--ecartPortraits, 15px);
+
+    width: max-content;
+    height: max-content;
+}
+
+#surfaceCarte {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    flex: 0 0 auto;
+}
+
+/* Grille de portraits : 2 colonnes et 6 lignes */
+.groupePortraits {
+    display: grid;
+    grid-template-columns: repeat(2, var(--taillePortrait, 80px));
+    grid-template-rows: repeat(6, var(--taillePortrait, 80px));
+    gap: var(--ecartPortraits, 10px);
+    flex: 0 0 auto;
+}
+
+/* Chaque portrait remplit entièrement son carré */
+.portraitJoueur {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 2px solid #777;
+    border-radius: 5px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* Empêche la sélection accidentelle */
+#ensembleCarte,
+#ensembleCarte * {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* ============================================================
+   12 — VISIONNEUSE DES PORTRAITS
+   ============================================================ */
+
+#visionneusePortrait {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 3vh 3vw;
+
+    opacity: 1;
+    transition: opacity 450ms ease;
+}
+
+#visionneusePortrait.masquee {
+    display: none;
+}
+
+/* Fond sombre */
+#fondVisionneuse {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+/* Image agrandie */
+#imagePortraitAgrandie {
+    position: relative;
+    z-index: 1;
+
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    pointer-events: auto;
+    cursor: default;
+
+    -webkit-user-select: none;
+    user-select: none;
+
+    transform: scale(1);
+    opacity: 1;
+    transition: transform 450ms ease, opacity 450ms ease;
+}
+
+/* Ouverture */
+#visionneusePortrait.ouvertureEnCours {
+    opacity: 0;
+}
+
+#visionneusePortrait.ouvertureEnCours #imagePortraitAgrandie {
+    transform: scale(0.92);
+    opacity: 0;
+}
+
+/* Fermeture */
+#visionneusePortrait.fermetureEnCours {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#visionneusePortrait.fermetureEnCours #fondVisionneuse {
+    background: rgba(0, 0, 0, 0);
+}
+
+#visionneusePortrait.fermetureEnCours #imagePortraitAgrandie {
+    transform: scale(0.92);
+    opacity: 0;
 }
