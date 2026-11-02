@@ -439,9 +439,9 @@ body {
 /* Grille de portraits : 2 colonnes et 6 lignes */
 .groupePortraits {
     display: grid;
-    grid-template-columns: repeat(2, var(--taillePortrait, 80px));
-    grid-template-rows: repeat(6, var(--taillePortrait, 80px));
-    gap: var(--ecartPortraits, 10px);
+    grid-template-columns: repeat(2, clamp(150px, 10vw, 180px));
+    grid-template-rows: repeat(6, clamp(150px, 8vw, 180px));
+    gap: 40px;
     flex: 0 0 auto;
 }
 
