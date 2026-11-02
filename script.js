@@ -65,7 +65,7 @@ const zones = [
         positionX: 31.3,
         positionY: 27.4,
         diametre: 9.3,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_04_le_cimetiere_des_titans.jpg",
         imageLoot: "images/listeLoot/ListeLoot4.png",
         imageAction: "images/listeAction/ActionZone4.png"
@@ -75,7 +75,7 @@ const zones = [
         positionX: 51.6,
         positionY: 28.6,
         diametre: 8.9,
-        etat: "normale",
+        etat: "detruite",
         image: "images/zones/zone_05_les_chutes_majestueuses.jpg",
         imageLoot: "images/listeLoot/ListeLoot5.png",
         imageAction: "images/listeAction/ActionZone5.png"
@@ -85,7 +85,7 @@ const zones = [
         positionX: 77.1,
         positionY: 11.2,
         diametre: 9.4,
-        etat: "normale",
+        etat: "detruite",
         image: "images/zones/zone_06_la_foret_des_brumes.jpg",
         imageLoot: "images/listeLoot/ListeLoot6.png",
         imageAction: "images/listeAction/ActionZone6.png"
@@ -95,7 +95,7 @@ const zones = [
         positionX: 89.9,
         positionY: 10.7,
         diametre: 8.8,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_07_la_tour_des_mages.jpg",
         imageLoot: "images/listeLoot/ListeLoot7.png",
         imageAction: "images/listeAction/ActionZone7.png"
@@ -165,7 +165,7 @@ const zones = [
         positionX: 5.5,
         positionY: 61.5,
         diametre: 9.4,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_14_le_refuge_de_lermite.jpg",
         imageLoot: "images/listeLoot/ListeLoot14.png",
         imageAction: "images/listeAction/ActionZone14.png"
@@ -185,7 +185,7 @@ const zones = [
         positionX: 44.5,
         positionY: 77.9,
         diametre: 9.4,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_16_le_colisee_eternel.jpg",
         imageLoot: "images/listeLoot/ListeLoot16.png",
         imageAction: "images/listeAction/ActionZone16.png"
