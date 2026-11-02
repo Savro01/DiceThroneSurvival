@@ -75,7 +75,7 @@ const zones = [
         positionX: 51.6,
         positionY: 28.6,
         diametre: 8.9,
-        etat: "detruite",
+        etat: "dangereuse",
         image: "images/zones/zone_05_les_chutes_majestueuses.jpg",
         imageLoot: "images/listeLoot/ListeLoot5.png",
         imageAction: "images/listeAction/ActionZone5.png"
@@ -85,7 +85,7 @@ const zones = [
         positionX: 77.1,
         positionY: 11.2,
         diametre: 9.4,
-        etat: "detruite",
+        etat: "dangereuse",
         image: "images/zones/zone_06_la_foret_des_brumes.jpg",
         imageLoot: "images/listeLoot/ListeLoot6.png",
         imageAction: "images/listeAction/ActionZone6.png"
