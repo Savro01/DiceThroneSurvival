@@ -445,6 +445,15 @@ body {
     flex: 0 0 auto;
 }
 
+/* Adaptation des portraits sur mobile */
+@media (max-width: 768px) {
+    .groupePortraits {
+        grid-template-columns: repeat(2, clamp(65px, 18vw, 100px));
+        grid-template-rows: repeat(6, clamp(65px, 18vw, 100px));
+        gap: 12px;
+    }
+}
+
 /* Chaque portrait remplit entièrement son carré */
 .portraitJoueur {
     display: block;
