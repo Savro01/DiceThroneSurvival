@@ -45,7 +45,7 @@ const zones = [
         positionX: 30.7,
         positionY: 9.6,
         diametre: 9.6,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_02_la_montagne_sacree.jpg",
         imageLoot: "images/listeLoot/ListeLoot2.png",
         imageAction: "images/listeAction/ActionZone2.png"
@@ -65,7 +65,7 @@ const zones = [
         positionX: 31.3,
         positionY: 27.4,
         diametre: 9.3,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_04_le_cimetiere_des_titans.jpg",
         imageLoot: "images/listeLoot/ListeLoot4.png",
         imageAction: "images/listeAction/ActionZone4.png"
@@ -75,7 +75,7 @@ const zones = [
         positionX: 51.6,
         positionY: 28.6,
         diametre: 8.9,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_05_les_chutes_majestueuses.jpg",
         imageLoot: "images/listeLoot/ListeLoot5.png",
         imageAction: "images/listeAction/ActionZone5.png"
@@ -85,7 +85,7 @@ const zones = [
         positionX: 77.1,
         positionY: 11.2,
         diametre: 9.4,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_06_la_foret_des_brumes.jpg",
         imageLoot: "images/listeLoot/ListeLoot6.png",
         imageAction: "images/listeAction/ActionZone6.png"
@@ -105,7 +105,7 @@ const zones = [
         positionX: 76.8,
         positionY: 28.6,
         diametre: 8.8,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_08_la_mer_de_nuages.jpg",
         imageLoot: "images/listeLoot/ListeLoot8.png",
         imageAction: "images/listeAction/ActionZone8.png"
@@ -205,7 +205,7 @@ const zones = [
         positionX: 91.5,
         positionY: 73.9,
         diametre: 9.3,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_18_le_marais_enchante.jpg",
         imageLoot: "images/listeLoot/ListeLoot18.png",
         imageAction: "images/listeAction/ActionZone18.png"
