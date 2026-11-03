@@ -55,7 +55,7 @@ const zones = [
         positionX: 10.2,
         positionY: 30.3,
         diametre: 9.4,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_03_la_forge_ecarlate.jpg",
         imageLoot: "images/listeLoot/ListeLoot3.png",
         imageAction: "images/listeAction/ActionZone3.png"
@@ -125,7 +125,7 @@ const zones = [
         positionX: 66.6,
         positionY: 45.6,
         diametre: 9,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_10_la_grotte_sous_marine.jpg",
         imageLoot: "images/listeLoot/ListeLoot10.png",
         imageAction: "images/listeAction/ActionZone10.png"
@@ -155,7 +155,7 @@ const zones = [
         positionX: 19.5,
         positionY: 56.6,
         diametre: 9.4,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_13_la_citadelle_brisee.jpg",
         imageLoot: "images/listeLoot/ListeLoot13.png",
         imageAction: "images/listeAction/ActionZone13.png"
@@ -175,7 +175,7 @@ const zones = [
         positionX: 29.1,
         positionY: 73.5,
         diametre: 9.1,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_15_le_desert_aride.jpg",
         imageLoot: "images/listeLoot/ListeLoot15.png",
         imageAction: "images/listeAction/ActionZone15.png"
@@ -195,7 +195,7 @@ const zones = [
         positionX: 74,
         positionY: 68.5,
         diametre: 9,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_17_le_bastion_sombre.jpg",
         imageLoot: "images/listeLoot/ListeLoot17.png",
         imageAction: "images/listeAction/ActionZone17.png"
@@ -225,7 +225,7 @@ const zones = [
         positionX: 13.7,
         positionY: 90.3,
         diametre: 8.7,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_20_lile_deserte.jpg",
         imageLoot: "images/listeLoot/ListeLoot20.png",
         imageAction: "images/listeAction/ActionZone20.png"
