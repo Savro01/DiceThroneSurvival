@@ -125,7 +125,7 @@ const zones = [
         positionX: 66.6,
         positionY: 45.6,
         diametre: 9,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_10_la_grotte_sous_marine.jpg",
         imageLoot: "images/listeLoot/ListeLoot10.png",
         imageAction: "images/listeAction/ActionZone10.png"
@@ -145,7 +145,7 @@ const zones = [
         positionX: 36.7,
         positionY: 53.5,
         diametre: 9.4,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_12_la_jungle_luxuriante.jpg",
         imageLoot: "images/listeLoot/ListeLoot12.png",
         imageAction: "images/listeAction/ActionZone12.png"
@@ -155,7 +155,7 @@ const zones = [
         positionX: 19.5,
         positionY: 56.6,
         diametre: 9.4,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_13_la_citadelle_brisee.jpg",
         imageLoot: "images/listeLoot/ListeLoot13.png",
         imageAction: "images/listeAction/ActionZone13.png"
@@ -175,7 +175,7 @@ const zones = [
         positionX: 29.1,
         positionY: 73.5,
         diametre: 9.1,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_15_le_desert_aride.jpg",
         imageLoot: "images/listeLoot/ListeLoot15.png",
         imageAction: "images/listeAction/ActionZone15.png"
