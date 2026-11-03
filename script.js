@@ -35,7 +35,7 @@ const zones = [
         positionX: 19.4,
         positionY: 11.0,
         diametre: 9.6,
-        etat: "normale",
+        etat: "detruite",
         image: "images/zones/zone_01_le_volcan.jpg",
         imageLoot: "images/listeLoot/ListeLoot1.png",
         imageAction: "images/listeAction/ActionZone1.png"
@@ -45,7 +45,7 @@ const zones = [
         positionX: 30.7,
         positionY: 9.6,
         diametre: 9.6,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_02_la_montagne_sacree.jpg",
         imageLoot: "images/listeLoot/ListeLoot2.png",
         imageAction: "images/listeAction/ActionZone2.png"
@@ -55,7 +55,7 @@ const zones = [
         positionX: 10.2,
         positionY: 30.3,
         diametre: 9.4,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_03_la_forge_ecarlate.jpg",
         imageLoot: "images/listeLoot/ListeLoot3.png",
         imageAction: "images/listeAction/ActionZone3.png"
@@ -105,7 +105,7 @@ const zones = [
         positionX: 76.8,
         positionY: 28.6,
         diametre: 8.8,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_08_la_mer_de_nuages.jpg",
         imageLoot: "images/listeLoot/ListeLoot8.png",
         imageAction: "images/listeAction/ActionZone8.png"
@@ -115,7 +115,7 @@ const zones = [
         positionX: 87.3,
         positionY: 40.9,
         diametre: 8.9,
-        etat: "normale",
+        etat: "detruite",
         image: "images/zones/zone_09_laiguille_noire.jpg",
         imageLoot: "images/listeLoot/ListeLoot9.png",
         imageAction: "images/listeAction/ActionZone9.png"
@@ -195,7 +195,7 @@ const zones = [
         positionX: 74,
         positionY: 68.5,
         diametre: 9,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_17_le_bastion_sombre.jpg",
         imageLoot: "images/listeLoot/ListeLoot17.png",
         imageAction: "images/listeAction/ActionZone17.png"
@@ -205,7 +205,7 @@ const zones = [
         positionX: 91.5,
         positionY: 73.9,
         diametre: 9.3,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_18_le_marais_enchante.jpg",
         imageLoot: "images/listeLoot/ListeLoot18.png",
         imageAction: "images/listeAction/ActionZone18.png"
@@ -215,7 +215,7 @@ const zones = [
         positionX: 65.0,
         positionY: 84.8,
         diametre: 9.3,
-        etat: "normale",
+        etat: "detruite",
         image: "images/zones/zone_19_la_fosse_aux_damnes.jpg",
         imageLoot: "images/listeLoot/ListeLoot19.png",
         imageAction: "images/listeAction/ActionZone19.png"
@@ -225,7 +225,7 @@ const zones = [
         positionX: 13.7,
         positionY: 90.3,
         diametre: 8.7,
-        etat: "normale",
+        etat: "dangereuse",
         image: "images/zones/zone_20_lile_deserte.jpg",
         imageLoot: "images/listeLoot/ListeLoot20.png",
         imageAction: "images/listeAction/ActionZone20.png"
