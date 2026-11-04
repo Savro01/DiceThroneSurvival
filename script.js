@@ -27,8 +27,6 @@ zoneNavigation.addEventListener("dragstart", (event) => {
 // Les positions sont des pourcentages de l'image.
 // Le diamètre est un pourcentage de sa largeur.
 
-
-
 const zones = [
     {
         nom: "Le volcan",
@@ -145,7 +143,7 @@ const zones = [
         positionX: 36.7,
         positionY: 53.5,
         diametre: 9.4,
-        etat: "dangereuse",
+        etat: "detruite",
         image: "images/zones/zone_12_la_jungle_luxuriante.jpg",
         imageLoot: "images/listeLoot/ListeLoot12.png",
         imageAction: "images/listeAction/ActionZone12.png"
